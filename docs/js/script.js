@@ -12,26 +12,32 @@ const portfolio = {
         "Meu interesse atual é aprofundar no backend, APIs e modelagem de dados, mantendo o frontend como apoio para transformar sistemas em experiências simples de usar."
     ],
     destaques: ["Backend e APIs", "Banco de dados", "Estrutura de Dados", "Engenharia de software", "Interfaces objetivas"],
-    projetos: [
-        {
-            nome: "AgriRS Lab - INPE",
-            tipo: "Projeto acadêmico - ABP | 1° semestre",
-            descricao: "Website desenvolvido em equipe para o Laboratório de Sensoriamento Remoto Agricola do INPE, centralizando informações sobre pesquisas, projetos, publicações e equipe.",
-            tecnologias: ["HTML5", "CSS3", "JavaScript", "Node.js", "PostgreSQL"],
-            status: "Concluido",
-            imagem: "assets/agrirs-logo.png",
-            link: "https://github.com/abpundefined/1DSM-ABP-Undefined"
-        },
-        {
-            nome: "Chatbot Secretaria Acadêmica",
-            tipo: "Projeto acadêmico | 2° semestre",
-            descricao: "Sistema em desenvolvimento para navegação conversacional, chatbot, consulta de informações acadêmicas e apoio ao atendimento da secretaria.",
-            tecnologias: ["React", "TypeScript", "Node.js", "PostgreSQL", "Docker"],
-            status: "Em desenvolvimento",
-            imagem: "assets/logo-fatec.png",
-            link: "http://github.com/abpundefined/2DSM-ABP-UNDEFINED"
-        },
-    ],
+    projetos: {
+        academicos: [
+            {
+                nome: "AgriRS Lab - INPE",
+                descricao: "Website desenvolvido em equipe para o Laboratório de Sensoriamento Remoto Agrícola do INPE, centralizando informações sobre pesquisas, projetos, publicações e equipe.",
+                participacao: "Responsável pelo desenvolvimento da página de Projetos, implementando funcionalidades de inclusão e exclusão de projetos do AgriRS Lab.",
+                semestre: "1DSM – 1º Sem. 2025",
+                tecnologias: ["HTML5", "CSS3", "JavaScript", "Node.js", "PostgreSQL"],
+                status: "Concluído",
+                imagem: "assets/agrirs-logo.png",
+                link: "https://github.com/abpundefined/1DSM-ABP-Undefined"
+            },
+            {
+                nome: "Chatbot Secretaria Acadêmica",
+                descricao: "Sistema para navegação conversacional, consulta de informações acadêmicas e apoio ao atendimento da secretaria da FATEC Jacareí.",
+                participacao: "Responsável pela implementação completa do sistema de autenticação JWT: middleware de autorização, repositórios, serviços, controllers e proteção de rotas.",
+                semestre: "2DSM – 1º Sem. 2026",
+                tecnologias: ["React", "TypeScript", "Node.js", "PostgreSQL", "Docker"],
+                status: "Em desenvolvimento",
+                imagem: "assets/logo-fatec.png",
+                link: "http://github.com/abpundefined/2DSM-ABP-UNDEFINED"
+            },
+        ],
+        profissionais: [],
+        pessoais: []
+    },
     tecnologias: [
         ["JavaScript", "assets/javascript.svg"], ["TypeScript", "assets/typescript.svg"],
         ["Python", "assets/python.svg"], ["PostgreSQL", "assets/postgresql.svg"],
@@ -47,12 +53,34 @@ const portfolio = {
     ],
     experiencia: "9 anos de experiência como Supervisor de Loja, atuando com gestão de equipes, processos e soluções de problemas.",
     contato: {
-        email: "learsi.slemes@hotmail.com", linkedin: "https://www.linkedin.com/in/israel-lemes", github: "https://github.com/Israelisl"
+        linkedin: "https://www.linkedin.com/in/israel-lemes", github: "https://github.com/Israelisl"
     }
 };
 
 const lista = (itens) => itens.map((item) => `<li>${item}</li>`).join("");
 const tags = (itens) => itens.map((item) => `<span class="badge bg-secondary me-1 mb-1">${item}</span>`).join("");
+
+const cardProjeto = (projeto) => `
+    <div class="col-md-6 col-lg-4">
+        <div class="card bg-custom-surface project-card h-100 shadow-sm border-0">
+            <div class="card-body d-flex flex-column">
+                <span class="badge bg-success align-self-start mb-3">${projeto.status}</span>
+                ${projeto.imagem ? `<img src="${projeto.imagem}" alt="Logo do projeto ${projeto.nome}" class="mb-3" style="height: 50px; object-fit: contain;">` : ""}
+                <h5 class="card-title text-accent fw-bold">${projeto.nome}</h5>
+                <span class="badge bg-secondary align-self-start mb-2" style="font-size: 0.75rem;">${projeto.semestre}</span>
+                <p class="card-text text-dark" style="font-size: 0.9rem;">${projeto.descricao}</p>
+                <div class="bg-dark bg-opacity-10 rounded p-2 mb-2">
+                    <small class="text-dark fw-bold d-block mb-1">Minha participação:</small>
+                    <small class="text-dark">${projeto.participacao}</small>
+                </div>
+                <div class="mt-auto pt-3">
+                    <div>${tags(projeto.tecnologias)}</div>
+                    ${projeto.link ? `<a href="${projeto.link}" class="text-accent text-decoration-none fw-bold mt-2 d-inline-block" target="_blank">Ver projeto &rarr;</a>` : ""}
+                </div>
+            </div>
+        </div>
+    </div>
+`;
 
 document.querySelector("#sobre").innerHTML = `
     <div class="row align-items-center w-100">
@@ -62,9 +90,7 @@ document.querySelector("#sobre").innerHTML = `
         <div class="col-md-8">
             <h1 id="sobre-titulo" class="display-4 fw-bold"></h1>
             <p class="text-accent fw-bold mb-4">${portfolio.semestre}</p>
-            
             ${portfolio.sobre.map((texto) => `<p class="text-custom-muted fs-5">${texto}</p>`).join("")}
-            
             <div class="mt-4">
                 ${portfolio.destaques.map((item) => `<span class="badge border border-secondary text-light p-2 me-2 mb-2 bg-transparent">${item}</span>`).join("")}
             </div>
@@ -83,27 +109,28 @@ setTimeout(digitarTitulo, 300);
 
 document.querySelector("#projetos").innerHTML = `
     <div class="mb-4">
-        <span class="text-success fw-bold text-uppercase" style="font-size: 0.85rem;">Projetos acadêmicos, pessoais e de estudo:</span>
-        <h2 class="fw-bold">Projetos em destaque</h2>
+        <span class="text-success fw-bold text-uppercase" style="font-size: 0.85rem;">Desenvolvidos durante a graduação na FATEC Jacareí</span>
+        <h2 class="fw-bold">Projetos</h2>
     </div>
-    <div class="row g-4 justify-content-center">
-        ${portfolio.projetos.map((projeto) => `
-            <div class="col-md-6 col-lg-4">
-                <div class="card bg-custom-surface project-card h-100 shadow-sm border-0">
-                    <div class="card-body d-flex flex-column">
-                        <span class="badge bg-success align-self-start mb-3">${projeto.status}</span>
-                        ${projeto.imagem ? `<img src="${projeto.imagem}" alt="Logo do projeto ${projeto.nome}" class="mb-3" style="height: 50px; object-fit: contain;">` : ""}
-                        <h5 class="card-title text-accent fw-bold">${projeto.nome}</h5>
-                        <p class="card-text text-dark" style="font-size: 0.9rem;">${projeto.descricao}</p>
-                        <div class="mt-auto pt-3">
-                            <div>${tags(projeto.tecnologias)}</div>
-                            ${projeto.link ? `<a href="${projeto.link}" class="text-accent text-decoration-none fw-bold mt-2 d-inline-block" target="_blank">Ver projeto &rarr;</a>` : ""}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `).join("")}
+
+    <h5 class="fw-bold mb-3 mt-2">Acadêmicos</h5>
+    <div class="row g-4 mb-5 justify-content-center">
+        ${portfolio.projetos.academicos.map(cardProjeto).join("")}
     </div>
+
+    ${portfolio.projetos.profissionais.length > 0 ? `
+        <h5 class="fw-bold mb-3">Profissionais</h5>
+        <div class="row g-4 mb-5 justify-content-center">
+            ${portfolio.projetos.profissionais.map(cardProjeto).join("")}
+        </div>
+    ` : ""}
+
+    ${portfolio.projetos.pessoais.length > 0 ? `
+        <h5 class="fw-bold mb-3">Pessoais</h5>
+        <div class="row g-4 mb-5 justify-content-center">
+            ${portfolio.projetos.pessoais.map(cardProjeto).join("")}
+        </div>
+    ` : ""}
 `;
 
 document.querySelector("#competencias").innerHTML = `
@@ -160,13 +187,11 @@ const btnSubir = document.createElement("a");
 btnSubir.href = "#sobre";
 btnSubir.className = "btn-subir";
 btnSubir.setAttribute("aria-label", "Voltar ao topo");
-
 btnSubir.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
     </svg>
 `;
-
 document.body.appendChild(btnSubir);
 
 window.addEventListener("scroll", () => {
@@ -179,9 +204,6 @@ window.addEventListener("scroll", () => {
 
 document.querySelector("#footer-contato").innerHTML = `
     <div class="d-flex justify-content-center gap-4 flex-wrap">
-        <a href="mailto:${portfolio.contato.email}" aria-label="Enviar Email">
-            <img src="assets/email.svg" alt="Ícone de Email" class="footer-icon">
-        </a>
         <a href="${portfolio.contato.linkedin}" target="_blank" rel="noreferrer" aria-label="Acessar LinkedIn">
             <img src="assets/linkedin.svg" alt="Ícone do LinkedIn" class="footer-icon">
         </a>
