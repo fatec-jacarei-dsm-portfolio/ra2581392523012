@@ -1,7 +1,7 @@
 # Portfólio de Projetos - Fatec Jacareí
 **Aluno:** Israel da Silva Lemes  
 **Curso:** Desenvolvimento de Software Multiplataforma  
-**Turma:** 1º Semestre de 2025
+**Turma:** 2º Semestre de 2025
 
 ---
 **Portfólio Online**  
